@@ -1,1 +1,19 @@
-<p>post-detail works!</p>
+<!-- Only render the card if 'post' has been loaded -->
+<mat-card *ngIf="post" class="post-detail-card">
+    <!-- Display the post title -->
+    <mat-card-title>{{ post.title }}</mat-card-title>
+    <!-- Display the post content and author -->
+    <mat-card-content>
+    <p>{{ post.content }}</p> <!-- Post body text -->
+    <small>By {{ post.author.username }}</small> <!-- Author username -->
+
+    <!-- Section for comments -->
+    <h3>Comments</h3>
+    <ul>
+    <!-- Loop through the comments array and display each one -->
+    <li *ngFor="let comment of post.comments">
+    {{ comment.user.username }}: {{ comment.content }}
+    </li>
+    </ul>
+    </mat-card-content>
+</mat-card>

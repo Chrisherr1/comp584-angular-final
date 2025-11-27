@@ -1,1 +1,13 @@
-<p>post-list works!</p>
+<div class="post-list">
+  <!-- Container for all posts -->
+  <!-- Loop through posts array using *ngFor -->
+  <mat-card *ngFor="let post of posts" class="post-card">
+  <!-- Card title displays the post title -->
+    <mat-card-title>{{ post.title }}</mat-card-title>
+    <!-- Card content displays post body and author -->
+    <mat-card-content>
+      <p>{{ post.content }}</p> <!-- Post content -->
+      <small>By {{ post.author.username }}</small> <!-- Author username -->
+    </mat-card-content>
+  </mat-card>
+</div>

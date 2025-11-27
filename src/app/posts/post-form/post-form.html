@@ -1,1 +1,33 @@
-<p>post-form works!</p>
+<!-- Card container for the form -->
+<mat-card class="post-form-card">
+  <mat-card-title>Create a New Post</mat-card-title>
+
+  <!-- Reactive form binding -->
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <!-- Title field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Enter post title">
+      <mat-error *ngIf="postForm.get('title')?.hasError('required')">
+        Title is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Content field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Content</mat-label>
+      <textarea matInput formControlName="content" placeholder="Enter post content"></textarea>
+      <mat-error *ngIf="postForm.get('content')?.hasError('required')">
+        Content is required
+      </mat-error>
+      <mat-error *ngIf="postForm.get('content')?.hasError('minlength')">
+        Content must be at least 10 characters
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Submit button -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">
+      Submit
+    </button>
+  </form>
+</mat-card>
