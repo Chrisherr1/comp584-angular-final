@@ -1,27 +1,45 @@
-import { Component, OnInit } from '@angular/core';   // Component decorator + lifecycle hook interface
-import { CommonModule } from '@angular/common';      // Provides common Angular directives like *ngFor and *ngIf
-import { MatCardModule } from '@angular/material/card'; // Angular Material module for card UI components
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button'; // ✅ ADD THIS
 
-import { PostService } from '../post.service';       // Import the PostService we just created
-import { Post } from '../../models/post';            // Import the Post interface for strong typing
+import { PostService } from '../post.service';
+import { Post } from '../../models/post';
 
 @Component({
-  selector: 'app-post-list',                         // The HTML tag used to render this component
-  standalone: true,                                  // Marks this as a standalone component (no NgModule needed)
-  imports: [CommonModule, MatCardModule],            // Declare which modules this component depends on
-  templateUrl: './post-list.html',                   // External HTML template file
-  styleUrls: ['./post-list.css']                     // External CSS file for styling
+  selector: 'app-post-list',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatButtonModule], // ✅ ADD MatButtonModule HERE
+  templateUrl: './post-list.html',
+  styleUrls: ['./post-list.css']
 })
 export class PostListComponent implements OnInit {
-  posts: Post[] = [];                                // Local property to hold the list of posts
+  posts: Post[] = [];
 
-  constructor(private postService: PostService) {}   // Inject PostService so we can fetch posts
+  constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    // Lifecycle hook runs once when the component is initialized
     this.postService.getPosts().subscribe({
-      next: (data) => this.posts = data,             // Assign fetched posts to local property
-      error: (err) => console.error('Error fetching posts', err) // Log errors if API call fails
+      next: (data) => this.posts = data,
+      error: (err) => console.error('Error fetching posts', err)
     });
+  }
+
+  // ✅ ADD THESE TWO METHODS
+  onEdit(post: Post): void {
+    console.log('Edit post:', post);
+    // TODO: Implement edit logic
+  }
+
+  onDelete(postId: number): void {
+    if (confirm('Are you sure you want to delete this post?')) {
+      this.postService.deletePost(postId).subscribe({
+        next: () => {
+          this.posts = this.posts.filter(p => p.id !== postId);
+          console.log('Post deleted successfully');
+        },
+        error: (err) => console.error('Error deleting post', err)
+      });
+    }
   }
 }
