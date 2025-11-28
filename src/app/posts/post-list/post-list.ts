@@ -9,7 +9,7 @@ import { Post } from '../../models/post';
 @Component({
   selector: 'app-post-list',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule], // ✅ ADD MatButtonModule HERE
+  imports: [CommonModule, MatCardModule, MatButtonModule],
   templateUrl: './post-list.html',
   styleUrls: ['./post-list.css']
 })

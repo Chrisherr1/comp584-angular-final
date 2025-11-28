@@ -1,9 +1,45 @@
 .post-list {
-  display: flex;             /* Use flexbox for layout */
-  flex-direction: column;    /* Stack posts vertically */
-  gap: 1rem;                 /* Space between each post card */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  max-width: 63%;   /* limit width */
+  margin: 0 auto; 
 }
 
 .post-card {
-  padding: 1rem;             /* Add padding inside each card */
+  margin-bottom: 16px;
+  padding: 5px;
+}
+
+mat-card-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+
+}
+
+/* Base style for post action buttons – like navbar links but smaller */
+.edit-btn,
+.delete-btn {
+  background: #2563a8;
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.9rem;         /* smaller than navbar links */
+  border-radius: 8px;              /* same radius as .nav-link */
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;              /* slightly smaller text */
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Hover effect – same vibe as .nav-link.active:hover */
+.edit-btn:hover,
+.delete-btn:hover {
+  transform: translateY(-2px);
+  
 }

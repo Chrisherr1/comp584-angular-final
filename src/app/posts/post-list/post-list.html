@@ -13,10 +13,10 @@
     
     <!-- Card actions for edit and delete buttons -->
     <mat-card-actions>
-      <button mat-button color="primary" (click)="onEdit(post)">
+      <button class="edit-btn" (click)="onEdit(post)">
         Edit
       </button>
-      <button mat-button color="warn" (click)="onDelete(post.id)">
+      <button class="delete-btn" (click)="onDelete(post.id)">
         Delete
       </button>
     </mat-card-actions>
