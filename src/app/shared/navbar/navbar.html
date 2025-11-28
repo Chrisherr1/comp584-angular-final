@@ -27,10 +27,15 @@
         <button (click)="logout()" class="nav-link logout-btn">Logout</button>
       </li>
       
-      <!-- Login link (only when NOT logged in) -->
+      <!-- Login & Signup links (only when NOT logged in) -->
       <li class="nav-item" *ngIf="!authService.isLoggedIn()">
         <a routerLink="/login" routerLinkActive="active" 
            (click)="closeMenu()" class="nav-link">Login</a>
+      </li>
+      
+      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/signup" routerLinkActive="active" 
+           (click)="closeMenu()" class="nav-link">Sign Up</a>
       </li>
     </ul>
   </div>
