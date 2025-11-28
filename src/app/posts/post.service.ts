@@ -7,7 +7,7 @@ import { Post } from '../models/post';                       // Strongly typed P
   providedIn: 'root'                                         // Service available app-wide
 })
 export class PostService {
-  private apiUrl = 'http://localhost:5000/api/posts';        // Base URL for your backend API
+  private apiUrl = 'http://localhost:5163/api/posts';        // Base URL for your backend API
 
   constructor(private http: HttpClient) {}                   // Inject HttpClient
 

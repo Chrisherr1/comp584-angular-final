@@ -1,10 +1,15 @@
-import { Routes } from '@angular/router';             // Angular routing system
-import { PostListComponent } from './posts/post-list/post-list'; // List view
-import { PostDetailComponent } from './posts/post-detail/post-detail'; // Detail view
+import { Routes } from '@angular/router';
+import { PostListComponent } from './posts/post-list/post-list';
+import { PostDetailComponent } from './posts/post-detail/post-detail';
 import { PostFormComponent } from './posts/post-form/post-form';
+import { Login } from './auth/login/login';
+import { authGuard } from './auth.guard'; 
+import { Register } from './auth/register/register';
 
 export const routes: Routes = [
-    { path: '', component: PostListComponent },           // Default route shows the list of posts
-    { path: 'posts/:id', component: PostDetailComponent },// Route with dynamic 'id' shows a single post
-    { path: 'create', component: PostFormComponent }  
+    { path: 'login', component: Login },
+    { path: 'signup', component: Register },
+    { path: '', component: PostListComponent,canActivate: [authGuard] },
+    { path: 'posts/:id',component: PostDetailComponent,canActivate: [authGuard] },
+    { path: 'create',component: PostFormComponent,canActivate: [authGuard]  }
 ];

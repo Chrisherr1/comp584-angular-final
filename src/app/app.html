@@ -1,12 +1,4 @@
-<!-- Display the app title using the signal defined in AppComponent -->
-<h1>{{ title() }}</h1>
-
 <!-- Simple navigation bar using Angular Material toolbar -->
-<nav>
-  <!-- Router links let you navigate without reloading the page -->
-  <a routerLink="/" routerLinkActive="active">Home</a>
-  <a routerLink="/create" routerLinkActive="active">Create Post</a>
-</nav>
-
-<!-- Router outlet is where routed components (PostList, PostDetail, PostForm) will render -->
+<app-navbar></app-navbar>
 <router-outlet></router-outlet>
+

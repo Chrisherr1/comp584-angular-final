@@ -1,1 +1,37 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="navbar-container">
+    <a routerLink="/" class="navbar-logo">
+      <span class="title">Blog Platform</span>
+    </a>
+      
+    <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen">
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+    </button>
+
+    <ul class="nav-menu" [class.active]="isMenuOpen">
+      <!-- Show these links only when logged in -->
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" 
+           (click)="closeMenu()" class="nav-link">View Posts</a>
+      </li>
+      
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="/create" routerLinkActive="active" 
+           (click)="closeMenu()" class="nav-link">Create Post</a>
+      </li>
+      
+      <!-- Logout button (only when logged in) -->
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <button (click)="logout()" class="nav-link logout-btn">Logout</button>
+      </li>
+      
+      <!-- Login link (only when NOT logged in) -->
+      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/login" routerLinkActive="active" 
+           (click)="closeMenu()" class="nav-link">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>

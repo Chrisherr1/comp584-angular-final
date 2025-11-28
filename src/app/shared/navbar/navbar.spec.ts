@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Navbar } from './navbar';
 
 describe('Navbar', () => {
@@ -12,7 +11,7 @@ describe('Navbar', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Navbar);
+    fixture = TestBed.createComponent(Navbar);``
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
