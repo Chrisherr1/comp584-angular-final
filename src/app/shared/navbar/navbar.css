@@ -3,12 +3,11 @@
 }
 
 .navbar {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background: #1a1a1a;
   padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(24, 73, 123, 0.3);
 }
@@ -30,22 +29,6 @@
   transition: all 0.3s ease;
   position: relative;
   letter-spacing: 0.5px;
-}
-
-.navbar-logo::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 3px;
-  bottom: -5px;
-  left: 0;
-  background: linear-gradient(90deg, #18497b, #2563a8);
-  transition: width 0.3s ease;
-  border-radius: 2px;
-}
-
-.navbar-logo:hover::after {
-  width: 100%;
 }
 
 .navbar-logo:hover {
@@ -75,24 +58,19 @@
   font-weight: 500;
 }
 
-
-
 .nav-link:hover {
   background-color: rgba(24, 73, 123, 0.15);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(24, 73, 123, 0.2);
 }
 
 .nav-link.active {
-  background: linear-gradient(135deg, #18497b 0%, #2563a8 100%);
+  background: #2563a8;
   color: white;
-  box-shadow: 0 4px 15px rgba(24, 73, 123, 0.4);
 }
 
 .nav-link.active:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(24, 73, 123, 0.5);
 }
 
 /* Logout button styling */
@@ -160,11 +138,10 @@
     left: -100%;
     top: 70px;
     flex-direction: column;
-    background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
+    background: #1a1a1a;
     width: 100%;
     text-align: center;
     transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     padding: 2rem 0;
     gap: 0;
     border-top: 2px solid rgba(24, 73, 123, 0.3);

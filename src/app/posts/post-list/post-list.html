@@ -1,5 +1,4 @@
 <div class="post-list">
-  <!-- Container for all posts -->
   <!-- Loop through posts array using *ngFor -->
   <mat-card *ngFor="let post of posts" class="post-card">
     <!-- Card title displays the post title -->
@@ -8,15 +7,15 @@
     <!-- Card content displays post body and author -->
     <mat-card-content>
       <p>{{ post.content }}</p> <!-- Post content -->
-      <small>By {{ post.author.username }}</small> <!-- Author username -->
+      <small>By {{ post.authorName}}</small> <!-- ✅ use authorName from PostDto -->
     </mat-card-content>
     
     <!-- Card actions for edit and delete buttons -->
     <mat-card-actions>
-      <button class="edit-btn" (click)="onEdit(post)">
+      <button mat-button class="edit-btn" (click)="onEdit(post)">
         Edit
       </button>
-      <button class="delete-btn" (click)="onDelete(post.id)">
+      <button mat-button class="delete-btn" (click)="onDelete(post.id)">
         Delete
       </button>
     </mat-card-actions>

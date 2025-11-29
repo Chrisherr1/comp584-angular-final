@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -20,63 +19,53 @@ interface RegisterRequest {
   password: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:5163/api/auth';
-  private tokenKey = 'token';
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  private apiUrl = 'http://localhost:5163/api/auth'; // adjust if needed
+  private loggedIn$ = new BehaviorSubject<boolean>(this.hasToken());
 
-  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {}
-
-  login(email: string, password: string): Observable<LoginResponse> {
-    const loginRequest: LoginRequest = { email, password };
-    
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, loginRequest)
-      .pipe(
-        tap(response => {
-          // Store the JWT token
-          localStorage.setItem(this.tokenKey, response.token);
-          
-          // Store user info
-          const userInfo = this.getUserInfo();
-          if (userInfo) {
-            localStorage.setItem('user', JSON.stringify(userInfo));
-          }
-          
-          this.isAuthenticatedSubject.next(true);
-        })
-      );
+  // ✅ Login: call backend, save token, update state
+  login(credentials: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.token);
+        this.loggedIn$.next(true);
+      })
+    );
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    const registerRequest: RegisterRequest = { username, email, password };
-    
-    return this.http.post(`${this.apiUrl}/register`, registerRequest);
+  // ✅ Register: call backend
+  register(request: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, request);
   }
 
+  // ✅ Logout: clear token, update state, redirect
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem('user');
-    this.isAuthenticatedSubject.next(false);
+    localStorage.removeItem('token');
+    this.loggedIn$.next(false);
     this.router.navigate(['/login']);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
-  }
-
+  // ✅ Helpers
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return this.loggedIn$.value;
   }
 
-  // Decode JWT to get user info (email, role)
+  getLoggedIn$(): Observable<boolean> {
+    return this.loggedIn$.asObservable();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  // ✅ Decode JWT claims for user info
   getUserInfo(): any {
     const token = this.getToken();
     if (!token) return null;
@@ -93,14 +82,5 @@ export class AuthService {
       console.error('Error decoding token:', error);
       return null;
     }
-  }
-
-  // Check if token is expired
-  isTokenExpired(): boolean {
-    const userInfo = this.getUserInfo();
-    if (!userInfo || !userInfo.exp) return true;
-    
-    const expirationTime = userInfo.exp * 1000; // Convert to milliseconds
-    return Date.now() >= expirationTime;
   }
 }

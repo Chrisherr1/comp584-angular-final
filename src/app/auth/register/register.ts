@@ -53,7 +53,7 @@ export class Register {
 
     this.isLoading = true;
 
-    this.authService.register(this.username, this.email, this.password).subscribe({
+    this.authService.register({username :this.username,email: this.email,password:this.password}).subscribe({
       next: (response) => {
         this.successMessage = 'Account created successfully! Redirecting...';
         setTimeout(() => {

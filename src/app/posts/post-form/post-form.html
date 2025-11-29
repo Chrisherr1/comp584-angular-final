@@ -1,22 +1,39 @@
-<!-- Card container for the form -->
 <mat-card class="post-form-card">
   <mat-card-title>Create a New Post</mat-card-title>
+  <mat-card-subtitle>Share your thoughts with the community</mat-card-subtitle>
 
-  <!-- Reactive form binding -->
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    <!-- Title field -->
-    <mat-form-field appearance="fill">
+    <!-- Title field with character counter -->
+    <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput formControlName="title" placeholder="Enter post title">
+      <input 
+        matInput 
+        formControlName="title" 
+        placeholder="Enter an engaging title"
+        maxlength="100">
+      <mat-hint align="end">
+        {{postForm.get('title')?.value?.length || 0}}/100
+      </mat-hint>
       <mat-error *ngIf="postForm.get('title')?.hasError('required')">
         Title is required
       </mat-error>
+      <mat-error *ngIf="postForm.get('title')?.hasError('minlength')">
+        Title must be at least 3 characters
+      </mat-error>
     </mat-form-field>
 
-    <!-- Content field -->
-    <mat-form-field appearance="fill">
+    <!-- Content field with character counter -->
+    <mat-form-field appearance="outline">
       <mat-label>Content</mat-label>
-      <textarea matInput formControlName="content" placeholder="Enter post content"></textarea>
+      <textarea 
+        matInput 
+        formControlName="content" 
+        placeholder="Write your post content here..."
+        maxlength="5000"
+        rows="8"></textarea>
+      <mat-hint align="end">
+        {{postForm.get('content')?.value?.length || 0}}/5000
+      </mat-hint>
       <mat-error *ngIf="postForm.get('content')?.hasError('required')">
         Content is required
       </mat-error>
@@ -25,9 +42,26 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Submit button -->
-    <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">
-      Submit
-    </button>
+    <!-- Form actions with submit and optional clear button -->
+    <div class="form-actions">
+      <button 
+        mat-stroked-button 
+        type="button" 
+        (click)="postForm.reset()"
+        [disabled]="!postForm.dirty">
+        Clear
+      </button>
+      
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        class="submit-button"
+        [disabled]="!postForm.valid">
+        <mat-icon>send</mat-icon>
+        Publish Post
+      </button>
+    </div>
+
   </form>
 </mat-card>

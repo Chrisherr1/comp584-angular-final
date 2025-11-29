@@ -4,33 +4,29 @@ import { CommonModule } from '@angular/common';      // Provides common Angular 
 import { ActivatedRoute } from '@angular/router';    // Gives access to route parameters (e.g., /posts/:id)
 import { MatCardModule } from '@angular/material/card'; // Angular Material module for card UI components
 
-// Import your PostService and Post model
-import { PostService } from '../post.service';       // Service that fetches posts from the backend
-import { Post } from '../../models/post';            // Strongly typed Post interface
+// ✅ Import PostService and PostDto (not old Post model)
+import { PostService, PostDto } from '../post.service'; // Service + DTO interfaces
 
 @Component({
-  selector: 'app-post-detail',                       // HTML tag used to render this component
-  standalone: true,                                  // Marks this as a standalone component (no NgModule needed)
-  imports: [CommonModule, MatCardModule],            // Declare which modules this component depends on
-  templateUrl: './post-detail.html',                 // External HTML template file
-  styleUrls: ['./post-detail.css']                    // External CSS file for styling
+  selector: 'app-post-detail',
+  standalone: true,
+  imports: [CommonModule, MatCardModule],
+  templateUrl: './post-detail.html',
+  styleUrls: ['./post-detail.css']
 })
 export class PostDetailComponent implements OnInit {
-  post?: Post;                                       // Local property to hold the single post (optional until loaded)
+  post: PostDto | null = null; // ✅ use PostDto
 
   constructor(
-    private route: ActivatedRoute,                   // Inject ActivatedRoute to read route parameters
-    private postService: PostService                 // Inject PostService to fetch post data
+    private route: ActivatedRoute,
+    private postService: PostService
   ) {}
 
   ngOnInit(): void {
-    // Extract the "id" parameter from the current route (e.g., /posts/5 → id = 5)
     const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    // Use PostService to fetch the post by ID
     this.postService.getPostById(id).subscribe({
-      next: (data) => this.post = data,              // Assign the fetched post to local property
-      error: (err) => console.error('Error fetching post', err) // Log errors if API call fails
+      next: (data) => this.post = data,
+      error: (err) => console.error('Error fetching post', err)
     });
   }
 }

@@ -16,14 +16,14 @@ mat-card-actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-
 }
 
 /* Base style for post action buttons – like navbar links but smaller */
-.edit-btn,
-.delete-btn {
-  background: #2563a8;
-  color: #fff;
+/* Using ::ng-deep or more specific selectors to override Material styles */
+.post-card mat-card-actions button.edit-btn,
+.post-card mat-card-actions button.delete-btn {
+  background: #2563a8 !important;
+  color: #fff !important;
   border: none;
   padding: 0.45rem 0.9rem;         /* smaller than navbar links */
   border-radius: 8px;              /* same radius as .nav-link */
@@ -35,11 +35,13 @@ mat-card-actions {
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  min-width: unset;                /* Override Material's min-width */
 }
 
 /* Hover effect – same vibe as .nav-link.active:hover */
-.edit-btn:hover,
-.delete-btn:hover {
+.post-card mat-card-actions button.edit-btn:hover,
+.post-card mat-card-actions button.delete-btn:hover {
   transform: translateY(-2px);
-  
+  background: #1e4a7a !important;  /* Slightly darker on hover */
 }
+

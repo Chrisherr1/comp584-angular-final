@@ -1,7 +1,7 @@
 <nav class="navbar">
   <div class="navbar-container">
     <a routerLink="/" class="navbar-logo">
-      <span class="title">Blog Platform</span>
+      <span class="title">584ChatBoard</span>
     </a>
       
     <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen">
@@ -14,12 +14,12 @@
       <!-- Show these links only when logged in -->
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" 
-           (click)="closeMenu()" class="nav-link">View Posts</a>
+          (click)="closeMenu()" class="nav-link">View Posts</a>
       </li>
       
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="/create" routerLinkActive="active" 
-           (click)="closeMenu()" class="nav-link">Create Post</a>
+          (click)="closeMenu()" class="nav-link">Create Post</a>
       </li>
       
       <!-- Logout button (only when logged in) -->
@@ -30,12 +30,12 @@
       <!-- Login & Signup links (only when NOT logged in) -->
       <li class="nav-item" *ngIf="!authService.isLoggedIn()">
         <a routerLink="/login" routerLinkActive="active" 
-           (click)="closeMenu()" class="nav-link">Login</a>
+          (click)="closeMenu()" class="nav-link">Login</a>
       </li>
       
       <li class="nav-item" *ngIf="!authService.isLoggedIn()">
         <a routerLink="/signup" routerLinkActive="active" 
-           (click)="closeMenu()" class="nav-link">Sign Up</a>
+          (click)="closeMenu()" class="nav-link">Sign Up</a>
       </li>
     </ul>
   </div>

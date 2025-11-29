@@ -1,40 +1,59 @@
-import { Injectable } from '@angular/core';                  // Marks this class as injectable
-import { HttpClient } from '@angular/common/http';           // Angular's HTTP client
-import { Observable } from 'rxjs';                           // RxJS Observable type
-import { Post } from '../models/post';                       // Strongly typed Post interface
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+// Request DTO: what we send when creating/updating a post
+export interface CreatePostDto {
+  title: string;
+  content: string;
+}
+
+// Response DTO: what the backend returns
+export interface PostDto {
+  id: number;
+  title: string;
+  content: string;
+  authorName: string;
+}
 
 @Injectable({
-  providedIn: 'root'                                         // Service available app-wide
+  providedIn: 'root'
 })
 export class PostService {
-  private apiUrl = 'http://localhost:5163/api/posts';        // Base URL for your backend API
+  private apiUrl = 'http://localhost:5163/api/posts'; // Adjust if your backend runs on a different port
 
-  constructor(private http: HttpClient) {}                   // Inject HttpClient
+  constructor(private http: HttpClient) {}
 
-  // Fetch all posts
-  getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.apiUrl);
+  // Helper to build headers with JWT token
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token'); // token should be stored after login
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  // Fetch a single post by ID
-  getPostById(id: number): Observable<Post> {
-    return this.http.get<Post>(`${this.apiUrl}/${id}`);
+  // Fetch all posts (public endpoint)
+  getPosts(): Observable<PostDto[]> {
+    return this.http.get<PostDto[]>(this.apiUrl);
   }
 
-  // ✅ Create a new post
-  createPost(post: Post): Observable<Post> {
-    // Sends a POST request to the backend with the new post data
-    // The backend should return the created Post (with an assigned ID)
-    return this.http.post<Post>(this.apiUrl, post);
+  // Fetch a single post by ID (public endpoint)
+  getPostById(id: number): Observable<PostDto> {
+    return this.http.get<PostDto>(`${this.apiUrl}/${id}`);
   }
 
-  // (Optional) Update an existing post
-  updatePost(id: number, post: Post): Observable<Post> {
-    return this.http.put<Post>(`${this.apiUrl}/${id}`, post);
+  // Create a new post (requires auth)
+  createPost(dto: CreatePostDto): Observable<PostDto> {
+    return this.http.post<PostDto>(this.apiUrl, dto, { headers: this.getAuthHeaders() });
   }
 
-  // (Optional) Delete a post
+  // Update an existing post (requires auth)
+  updatePost(id: number, dto: CreatePostDto): Observable<PostDto> {
+    return this.http.put<PostDto>(`${this.apiUrl}/${id}`, dto, { headers: this.getAuthHeaders() });
+  }
+
+  // Delete a post (requires auth)
   deletePost(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 }

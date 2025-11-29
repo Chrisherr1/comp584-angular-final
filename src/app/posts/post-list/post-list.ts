@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button'; // ✅ ADD THIS
+import { MatButtonModule } from '@angular/material/button';
 
-import { PostService } from '../post.service';
-import { Post } from '../../models/post';
+import { PostService, PostDto } from '../post.service'; // ✅ use PostDto from service
 
 @Component({
   selector: 'app-post-list',
@@ -14,7 +13,7 @@ import { Post } from '../../models/post';
   styleUrls: ['./post-list.css']
 })
 export class PostListComponent implements OnInit {
-  posts: Post[] = [];
+  posts: PostDto[] = []; // ✅ use PostDto[]
 
   constructor(private postService: PostService) {}
 
@@ -25,10 +24,9 @@ export class PostListComponent implements OnInit {
     });
   }
 
-  // ✅ ADD THESE TWO METHODS
-  onEdit(post: Post): void {
+  onEdit(post: PostDto): void {
     console.log('Edit post:', post);
-    // TODO: Implement edit logic
+    // TODO: Implement edit logic (e.g. navigate to edit form)
   }
 
   onDelete(postId: number): void {
